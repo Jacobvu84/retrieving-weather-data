@@ -19,11 +19,11 @@ public class Weather {
     }
 
     public String toString() {
-        return "{" +
-                "\"temperature\":\"" + temperature + "\",\n" +
-                "\"mainWeather\":\"" + mainWeather + "\",\n" +
-                "\"realFeel\":\"" + realFeel + "\",\n" +
-                "\"humidity\":\"" + humidity + "\"\n" +
+        return "{\n" +
+                "\t\"temperature\":\"" + temperature + "\",\n" +
+                "\t\"mainWeather\":\"" + mainWeather + "\",\n" +
+                "\t\"realFeel\":\"" + realFeel + "\",\n" +
+                "\t\"humidity\":\"" + humidity + "\"\n" +
                 "}";
     }
 
