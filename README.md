@@ -5,6 +5,18 @@ To run the tests with Maven, open a command window and run:
 >mvn clean verify
 ```
 
+## Runs every day at 7:00 AM and repeats every hour for a duration of 1 day
+
+```
+schtasks /create /tn "Execution Test Hourly" /tr "../run.bat" /sc DAILY /st 07:00 /f /RI 60 /du 24:00
+```
+
+run.bat
+
+```
+mvn clean verify -f %CD%\pom.xml
+```
+
 ## Viewing the reports
 The commands provided above will produce a Serenity test report in the `target/site/serenity` directory. Go take a look!
 
