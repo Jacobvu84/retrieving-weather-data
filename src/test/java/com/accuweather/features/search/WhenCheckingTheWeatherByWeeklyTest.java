@@ -6,6 +6,7 @@ import com.accuweather.models.Session;
 import com.accuweather.models.Weather;
 import com.accuweather.questions.TheInformation;
 import com.accuweather.tasks.Visit;
+import com.accuweather.tasks.VisitWeather;
 import com.accuweather.utils.Period;
 import com.accuweather.questions.TotalOfDays;
 import com.accuweather.ui.DailyView;
@@ -32,6 +33,7 @@ import static net.serenitybdd.screenplay.GivenWhenThen.*;
 @RunWith(SerenityRunner.class)
 public class WhenCheckingTheWeatherByWeeklyTest {
 
+    public static final int TODAY = 1;
     Actor jacob = Actor.named("Jacob");
 
     @Managed(uniqueSession = true)
@@ -62,33 +64,57 @@ public class WhenCheckingTheWeatherByWeeklyTest {
 
         jacob.remember(Key.DAILY, TheCurrentUrl.ofPage());
 
-        for(int counter = 1; counter<= durationOfDay; counter++){
-            //Day & Night
-            jacob.attemptsTo(
-                    Visit.theWeather(Session.DAILY).onDate(counter),
-                    Ensure.that(DailyView.DATE_DAILY).hasText(dayValue(counter))
-            );
-        }
+        //Day & Night
+        jacob.attemptsTo(
+                //visit the weather from today until the end list of daily date on the page
+                //VisitWeather.byAllOfDaily()
+                Visit.theWeather(Session.DAILY).onDate(TODAY),
+                Ensure.that(DailyView.DATE_DAILY).hasText(dayValue(TODAY))
+        );
 
-        for(int counter = 1; counter<= 16; counter++){
+        /*
+        //visit the weather from today until the next 16 days
+        jacob.attemptsTo(
+                VisitWeather.allBySession(Session.EVENING),
+                VisitWeather.allBySession(Session.OVERNIGHT),
+                VisitWeather.allBySession(Session.MORNING),
+                VisitWeather.allBySession(Session.AFTERNOON)
+        );*/
 
-            // Evening
-            jacob.attemptsTo(
-                    Visit.theWeather(Session.EVENING).onDate(counter),
-                    Ensure.that(DailyView.DATE).hasText(dateInformation(counter))
-            );
+        // Evening
+        jacob.attemptsTo(
+                Visit.theWeather(Session.EVENING).onDate(TODAY),
+                Ensure.that(DailyView.DATE).hasText(dateInformation(TODAY))
+        );
 
-            Weather evening = jacob.asksFor(TheInformation.ofWeather());
-            Serenity.recordReportData().withTitle("Evening Weather").andContents(evening.toString());
+        Weather evening = jacob.asksFor(TheInformation.ofWeather());
+        Serenity.recordReportData().withTitle("Evening Weather").andContents(evening.toString());
 
-            // overnight
-            jacob.attemptsTo(
-                    Visit.theWeather(Session.OVERNIGHT).onDate(counter),
-                    Ensure.that(DailyView.DATE).hasText(dateInformation(counter))
-            );
+        // overnight
+        jacob.attemptsTo(
+                Visit.theWeather(Session.OVERNIGHT).onDate(TODAY),
+                Ensure.that(DailyView.DATE).hasText(dateInformation(TODAY))
+        );
 
-            Weather overnight = jacob.asksFor(TheInformation.ofWeather());
-            Serenity.recordReportData().withTitle("Overnight Weather").andContents(overnight.toString());
-        }
+        Weather overnight = jacob.asksFor(TheInformation.ofWeather());
+        Serenity.recordReportData().withTitle("Overnight Weather").andContents(overnight.toString());
+
+        // morning
+        jacob.attemptsTo(
+                Visit.theWeather(Session.MORNING).onDate(TODAY),
+                Ensure.that(DailyView.DATE).hasText(dateInformation(TODAY))
+        );
+
+        Weather morning = jacob.asksFor(TheInformation.ofWeather());
+        Serenity.recordReportData().withTitle("Morning Weather").andContents(morning.toString());
+
+        // afternoon
+        jacob.attemptsTo(
+                Visit.theWeather(Session.AFTERNOON).onDate(TODAY),
+                Ensure.that(DailyView.DATE).hasText(dateInformation(TODAY))
+        );
+
+        Weather afternoon = jacob.asksFor(TheInformation.ofWeather());
+        Serenity.recordReportData().withTitle("Afternoon Weather").andContents(afternoon.toString());
     }
 }
