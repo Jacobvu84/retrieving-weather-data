@@ -11,7 +11,7 @@ public class Period {
         LocalDate startDate = LocalDate.now();
         String startDateFormat = startDate.format(formatter);
 
-        LocalDate endDate = startDate.plusDays(duration);
+        LocalDate endDate = startDate.plusDays(duration-1);
         String endDateFormat = endDate.format(formatter);
         return String.join(" - ", startDateFormat.toUpperCase(), endDateFormat.toUpperCase());
     }
