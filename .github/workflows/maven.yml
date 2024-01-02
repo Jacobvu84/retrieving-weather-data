@@ -27,5 +27,10 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+    - name: Install Edge for Testing and its driver
+      run: |
+        npm i puppeteer
+        npx @puppeteer/browsers install edge@stable  
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn verify --file pom.xml
+
