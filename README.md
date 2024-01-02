@@ -14,3 +14,4 @@ The commands provided above will produce a Serenity test report in the `target/s
 
 ![image](https://github.com/Jacobvu84/retrieving-weather-data/assets/983936/01c5a72b-9f47-42af-9a2b-9c1227d44af3)
 
+![image](https://github.com/Jacobvu84/retrieving-weather-data/assets/983936/993bbd3c-e741-4bbe-a65a-d11768458627)
