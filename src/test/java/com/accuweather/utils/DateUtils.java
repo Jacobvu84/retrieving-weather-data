@@ -1,6 +1,7 @@
 package com.accuweather.utils;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class DateUtils {
@@ -16,4 +17,13 @@ public class DateUtils {
         LocalDate date = LocalDate.now().plusDays(day-1);;
         return date.format(formatter).toUpperCase();
     }
+
+    public static String getTime(){
+        LocalDateTime localDate = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+
+        return localDate.format(formatter).toLowerCase();
+    }
+
+
 }

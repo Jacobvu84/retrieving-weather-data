@@ -6,13 +6,14 @@ import com.accuweather.models.Session;
 import com.accuweather.models.Weather;
 import com.accuweather.questions.TheInformation;
 import com.accuweather.tasks.Visit;
-import com.accuweather.tasks.VisitWeather;
 import com.accuweather.utils.Period;
 import com.accuweather.questions.TotalOfDays;
 import com.accuweather.ui.DailyView;
+import com.accuweather.utils.Save;
 import net.serenitybdd.core.Serenity;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.serenitybdd.screenplay.Actor;
+import net.serenitybdd.screenplay.SilentTask;
 import net.serenitybdd.screenplay.abilities.BrowseTheWeb;
 import net.serenitybdd.screenplay.ensure.Ensure;
 import net.thucydides.core.annotations.Managed;
@@ -48,7 +49,7 @@ public class WhenCheckingTheWeatherByWeeklyTest {
     }
 
     @Test
-    public void check_results_should_show_the_weather_information_by_daily() {
+    public void check_results_should_show_the_weather_information() {
 
         int durationOfDay = 45;
 
@@ -56,7 +57,7 @@ public class WhenCheckingTheWeatherByWeeklyTest {
 
         when(jacob).attemptsTo(
                 Navigate.toViewOf(Menu.DAILY),
-                Wait.aBit(5),
+                SilentTask.where(Wait.aBit(5)),
                 Ensure.that(DailyView.PERIOD).hasText(Period.of(durationOfDay)),
                 Ensure.that("total days display in view",
                         TotalOfDays.ofPeriod()).isEqualTo(durationOfDay)
@@ -66,20 +67,9 @@ public class WhenCheckingTheWeatherByWeeklyTest {
 
         //Day & Night
         jacob.attemptsTo(
-                //visit the weather from today until the end list of daily date on the page
-                //VisitWeather.byAllOfDaily()
                 Visit.theWeather(Session.DAILY).onDate(TODAY),
                 Ensure.that(DailyView.DATE_DAILY).hasText(dayValue(TODAY))
         );
-
-        /*
-        //visit the weather from today until the next 16 days
-        jacob.attemptsTo(
-                VisitWeather.allBySession(Session.EVENING),
-                VisitWeather.allBySession(Session.OVERNIGHT),
-                VisitWeather.allBySession(Session.MORNING),
-                VisitWeather.allBySession(Session.AFTERNOON)
-        );*/
 
         // Evening
         jacob.attemptsTo(
@@ -88,6 +78,7 @@ public class WhenCheckingTheWeatherByWeeklyTest {
         );
 
         Weather evening = jacob.asksFor(TheInformation.ofWeather());
+        Save.jsonFile(evening, Session.EVENING.name());
         Serenity.recordReportData().withTitle("Evening Weather").andContents(evening.toString());
 
         // overnight
@@ -97,6 +88,7 @@ public class WhenCheckingTheWeatherByWeeklyTest {
         );
 
         Weather overnight = jacob.asksFor(TheInformation.ofWeather());
+        Save.jsonFile(overnight, Session.OVERNIGHT.name());
         Serenity.recordReportData().withTitle("Overnight Weather").andContents(overnight.toString());
 
         // morning
@@ -106,6 +98,7 @@ public class WhenCheckingTheWeatherByWeeklyTest {
         );
 
         Weather morning = jacob.asksFor(TheInformation.ofWeather());
+        Save.jsonFile(morning, Session.MORNING.name());
         Serenity.recordReportData().withTitle("Morning Weather").andContents(morning.toString());
 
         // afternoon
@@ -115,6 +108,7 @@ public class WhenCheckingTheWeatherByWeeklyTest {
         );
 
         Weather afternoon = jacob.asksFor(TheInformation.ofWeather());
+        Save.jsonFile(afternoon, Session.AFTERNOON.name());
         Serenity.recordReportData().withTitle("Afternoon Weather").andContents(afternoon.toString());
     }
 }

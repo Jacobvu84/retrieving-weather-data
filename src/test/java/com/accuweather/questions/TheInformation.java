@@ -17,7 +17,7 @@ public class TheInformation implements Question<Weather> {
         String temperature = Text.of(DailyView.TEMPERATURE).answeredBy(actor);
         String mainWeather = Text.of(DailyView.MAIN_WEATHER).answeredBy(actor);
         String realFeel =  Text.of(DailyView.REAL_FEEL).answeredBy(actor);
-        String humidity =  Text.of(DailyView.MAIN_WEATHER).answeredBy(actor);
+        String humidity =  Text.of(DailyView.DETAIL_INFOR.of("Humidity")).answeredBy(actor);
 
         return new Weather(temperature, mainWeather, realFeel, humidity);
     }
