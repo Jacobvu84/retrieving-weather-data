@@ -28,7 +28,7 @@ public class VisitWeather {
     }
 
     public static Performable allBySession(Session session) {
-        return Task.where("", actor -> {
+        return Task.where("{0} visit whole of the "+session.name()+" weather", actor -> {
             for(int counter = 1; counter<= 16; counter++){
 
                 // Evening
