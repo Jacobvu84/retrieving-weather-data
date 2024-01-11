@@ -12,7 +12,7 @@ on:
   push:
     branches: [ "Jacobvu84-patch-1" ]
   pull_request:
-    branches: [ "Jacobvu84-patch-1 " ]
+    branches: [ "Jacobvu84-patch-1" ]
 
 jobs:
   build:
